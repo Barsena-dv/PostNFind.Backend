@@ -1,11 +1,17 @@
 const employeeSchema = require("../models/EmployeesModel")
 
 const getAllemployess = async (req, res) => {
-    const getAllEmployees = await employeeSchema.find()
-    res.json({
-        message: "Employees data fetched successfully",
-        data: getAllEmployees,
-    })
+    try {
+        const getAllEmployees = await employeeSchema.find()
+        res.json({
+            message: "Employees data fetched successfully",
+            data: getAllEmployees,
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "Error fetching employees"
+        })
+    }
 }
 
 const getEmployee = async (req, res) => {
