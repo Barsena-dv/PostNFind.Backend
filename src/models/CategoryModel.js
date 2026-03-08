@@ -18,6 +18,9 @@ const categorySchema = new Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    tags: {
+        type: [String]
     }
 });
 

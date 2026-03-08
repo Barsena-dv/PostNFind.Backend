@@ -58,8 +58,54 @@ const getEmployeesBySalary = async (req, res) => {
     }
 }
 
+const updateEmployee = async (req, res) => {
+    try {
+        const updateEmployeeObj = await employeeSchema.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (updateEmployeeObj) {
+            res.status(200).json({
+                message: "Employee updated successfully",
+                data: updateEmployeeObj
+            })
+        } else {
+            res.status(404).json({
+                message: "Employee not found"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error updating employee"
+        })
+    }
+}
+
+const pushSkillToEmployee = async (req, res) => {
+    try {
+        const pushSkillObj = await employeeSchema.findByIdAndUpdate(
+            req.params.id,
+            { $push: { skills: req.body.skill } },
+            { new: true }
+        );
+        if (pushSkillObj) {
+            res.status(200).json({
+                message: "Skill added successfully",
+                data: pushSkillObj
+            })
+        } else {
+            res.status(404).json({
+                message: "Employee not found"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error adding skill"
+        })
+    }
+}
+
 module.exports = {
     getAllemployess,
     getEmployee,
-    getEmployeesBySalary
+    getEmployeesBySalary,
+    updateEmployee,
+    pushSkillToEmployee
 }

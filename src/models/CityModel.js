@@ -26,7 +26,10 @@ const citySchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    landmarks: {
+        type: [String]
     }
 })
 
-module.exports = mongoose.model("city",citySchema);
+module.exports = mongoose.model("city", citySchema);

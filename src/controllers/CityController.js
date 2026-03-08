@@ -80,9 +80,55 @@ const deleteCity = async (req, res) => {
     }
 }
 
+const updateCity = async (req, res) => {
+    try {
+        const updateCityObj = await citySchema.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (updateCityObj) {
+            res.status(200).json({
+                message: "City updated successfully",
+                data: updateCityObj
+            })
+        } else {
+            res.status(404).json({
+                message: "City not found"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error updating city"
+        })
+    }
+}
+
+const pushLandmarkToCity = async (req, res) => {
+    try {
+        const pushLandmarkObj = await citySchema.findByIdAndUpdate(
+            req.params.id,
+            { $push: { landmarks: req.body.landmark } },
+            { new: true }
+        );
+        if (pushLandmarkObj) {
+            res.status(200).json({
+                message: "Landmark added successfully",
+                data: pushLandmarkObj
+            })
+        } else {
+            res.status(404).json({
+                message: "City not found"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error adding landmark"
+        })
+    }
+}
+
 module.exports = {
     getAllCities,
     getCityById,
     createCity,
-    deleteCity
+    deleteCity,
+    updateCity,
+    pushLandmarkToCity
 }

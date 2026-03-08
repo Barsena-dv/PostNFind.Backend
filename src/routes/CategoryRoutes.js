@@ -1,9 +1,11 @@
 const router = require('express').Router();
-const stateController = require("../controllers/StateController")
+const categoryController = require("../controllers/CategoryController");
 
-router.get("/states",stateController.getAllStates);
-router.get("/state/:id",stateController.getStateById);
-router.post("/state/create",stateController.createState);
-router.delete("/state/delete",stateController.deleteState);
+router.get("/categories", categoryController.getAllCategories);
+router.get("/category/:id", categoryController.getCategoryById);
+router.post("/category/create", categoryController.createCategory);
+router.delete("/category/delete/:id", categoryController.deleteCategory);
+router.put("/category/update/:id", categoryController.updateCategory);
+router.patch("/category/push/tag/:id", categoryController.pushTagToCategory);
 
 module.exports = router;

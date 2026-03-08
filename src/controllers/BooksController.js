@@ -80,9 +80,55 @@ const deleteBook = async (req, res) => {
     }
 }
 
+const updateBook = async (req, res) => {
+    try {
+        const updateBookObj = await bookSchema.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (updateBookObj) {
+            res.status(200).json({
+                message: "Book updated successfully",
+                data: updateBookObj
+            })
+        } else {
+            res.status(404).json({
+                message: "Book not found"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error updating book"
+        })
+    }
+}
+
+const pushTagToBook = async (req, res) => {
+    try {
+        const pushTagObj = await bookSchema.findByIdAndUpdate(
+            req.params.id,
+            { $push: { tags: req.body.tag } },
+            { new: true }
+        );
+        if (pushTagObj) {
+            res.status(200).json({
+                message: "Tag added successfully",
+                data: pushTagObj
+            })
+        } else {
+            res.status(404).json({
+                message: "Book not found"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error adding tag"
+        })
+    }
+}
+
 module.exports = {
     getAllBooks,
     getBookById,
     createBook,
-    deleteBook
+    deleteBook,
+    updateBook,
+    pushTagToBook
 }

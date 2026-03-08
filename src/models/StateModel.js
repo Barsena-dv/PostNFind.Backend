@@ -20,7 +20,10 @@ const stateSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    districts: {
+        type: [String]
     }
 })
 
-module.exports = mongoose.model("states",stateSchema)
+module.exports = mongoose.model("states", stateSchema)

@@ -81,9 +81,55 @@ const deleteCategory = async (req, res) => {
     }
 }
 
+const updateCategory = async (req, res) => {
+    try {
+        const updateCategoryObj = await categorySchema.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (updateCategoryObj) {
+            res.status(200).json({
+                message: "Category updated successfully",
+                data: updateCategoryObj
+            })
+        } else {
+            res.status(404).json({
+                message: "Category not found"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error updating category"
+        })
+    }
+}
+
+const pushTagToCategory = async (req, res) => {
+    try {
+        const pushTagObj = await categorySchema.findByIdAndUpdate(
+            req.params.id,
+            { $push: { tags: req.body.tag } },
+            { new: true }
+        );
+        if (pushTagObj) {
+            res.status(200).json({
+                message: "Tag added successfully",
+                data: pushTagObj
+            })
+        } else {
+            res.status(404).json({
+                message: "Category not found"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error adding tag"
+        })
+    }
+}
+
 module.exports = {
     getAllCategories,
     getCategoryById,
     createCategory,
-    deleteCategory
+    deleteCategory,
+    updateCategory,
+    pushTagToCategory
 }
